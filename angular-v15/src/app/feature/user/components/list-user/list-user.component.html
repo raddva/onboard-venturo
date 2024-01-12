@@ -1,0 +1,103 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-transparent">
+        <div class="card-header d-flex justify-content-between">
+          <h1>Daftar User</h1>
+          <div class="d-flex justify-content-end">
+            <form class="form-inline">
+              <div class="form-group mb-0 d-flex align-items-center">
+                <label class="me-2">Nama</label>
+                <div class="input-group input-group-sm">
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    [(ngModel)]="filter.name"
+                    name="name"
+                  />
+                  <div class="input-group-append" (click)="reloadDataTable()">
+                    <span class="input-group-text">
+                      <em class="fa fa-search"></em>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <button
+              type="button"
+              class="btn btn-sm btn-primary ms-2"
+              (click)="createUser(formUser)"
+            >
+              <em class="fa fa-plus font-size-14 align-middle me-1"></em> Tambah
+              User
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table table-hover" datatable [dtOptions]="dtOptions">
+            <thead class="thead-light">
+              <tr>
+                <th class="text-center">No</th>
+                <th class="text-center">Nama</th>
+                <th class="text-center">Email</th>
+                <th class="text-center">Telepon</th>
+                <th class="text-center"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of listUser">
+                <td class="text-center">{{ user.no }}</td>
+                <td class="vertical-middle text-center">{{ user.name }}</td>
+                <td class="vertical-middle text-center">{{ user.email }}</td>
+                <td class="vertical-middle text-center">
+                  {{ user.phone_number }}
+                </td>
+                <td class="vertical-middle text-center text-right">
+                  <a
+                    href="javascript: void(0);"
+                    class="align-middle me-2"
+                    (click)="updateUser(formUser, user)"
+                    placement="left"
+                    container="body"
+                    ngbTooltip="Ubah"
+                  >
+                    <em class="fa fa-edit font-size-14"></em>
+                  </a>
+                  <a
+                    href="javascript: void(0);"
+                    class="align-middle"
+                    (click)="deleteUser(user.id)"
+                    placement="left"
+                    container="body"
+                    ngbTooltip="Hapus"
+                  >
+                    <em class="fa fa-trash font-size-14"></em>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #formUser let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title mt-0">{{ titleModal }}</h5>
+    <button
+      type="button"
+      class="close"
+      (click)="modal.close()"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-form-user
+      [userId]="userId"
+      (afterSave)="modal.close(); getUser()"
+    ></app-form-user>
+  </div>
+</ng-template>

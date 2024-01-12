@@ -1,0 +1,163 @@
+<div class="container-fluid" *ngIf="!showForm">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-transparent">
+        <div class="card-header d-flex justify-content-between">
+          <h1>Daftar Menu</h1>
+          <div class="d-flex justify-content-end">
+            <form class="form-inline d-flex align-items-center">
+              <div class="form-group flex-grow-1 mb-0 me-2">
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Tulis nama makanan"
+                    [(ngModel)]="filter.name"
+                    name="name"
+                    debounceKeyUp
+                    (onEvent)="reloadDataTable()"
+                  />
+                </div>
+              </div>
+              <div class="form-group flex-grow-1 mb-0 me-2">
+                <div class="input-group">
+                  <ng-select
+                    [items]="categories"
+                    placeholder="Kategori"
+                    bindLabel="name"
+                    bindValue="id"
+                    [loading]="showLoading"
+                    [searchable]="false"
+                    [(ngModel)]="filter.product_category_id"
+                    name="product_category_id"
+                    (change)="reloadDataTable()"
+                  >
+                    <ng-template ng-header-tmp>
+                      <input
+                        type="text"
+                        class="form-control form-control-sm"
+                        debounceKeyUp
+                        (onEvent)="getCategories($event.target.value)"
+                      />
+                    </ng-template>
+                  </ng-select>
+                </div>
+              </div>
+              <div class="form-group flex-grow-1 mb-0 me-2">
+                <div class="input-group">
+                  <ng-select
+                    name="type"
+                    appendTo="body"
+                    [(ngModel)]="filter.is_available"
+                    placeholder="Status"
+                    [searchable]="false"
+                    (change)="reloadDataTable()"
+                  >
+                    <ng-option [value]="'1'">Ada</ng-option>
+                    <ng-option [value]="'0'">Habis</ng-option>
+                  </ng-select>
+                </div>
+              </div>
+            </form>
+            <button
+              type="button"
+              class="btn btn-sm btn-primary"
+              (click)="formCreate()"
+            >
+              <em class="fa fa-plus font-size-14 align-middle me-1"></em> Tambah
+              Menu
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table table-hover" datatable [dtOptions]="dtOptions">
+            <thead class="thead-light">
+              <tr>
+                <th class="text-center" style="width: 70px">No</th>
+                <th class="text-center">Gambar</th>
+                <th class="text-center">Nama</th>
+                <th class="text-center">Kategori</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Harga</th>
+                <th class="text-center"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of listProduct">
+                <td class="vertical-middle text-center">
+                  {{ product.no }}
+                </td>
+                <td class="vertical-middle text-center">
+                  <img
+                    class="img-product"
+                    src="{{ product.photo_url }}"
+                    alt=""
+                  />
+                </td>
+                <td class="vertical-middle text-center">{{ product.name }}</td>
+                <td class="vertical-middle text-center">
+                  {{ product.product_category_name }}
+                </td>
+                <td class="vertical-middle text-center">
+                  <label
+                    class="badge bg-success"
+                    *ngIf="product.is_available == 1"
+                    >Ada</label
+                  >
+                  <label
+                    class="badge bg-danger"
+                    *ngIf="product.is_available == 0"
+                    >Habis</label
+                  >
+                </td>
+                <td class="vertical-middle text-center">
+                  Rp {{ product.price | number }}
+                </td>
+                <td class="vertical-middle text-center text-right">
+                  <a
+                    href="javascript: void(0);"
+                    class="align-middle me-2"
+                    (click)="formUpdate(product)"
+                    placement="left"
+                    container="body"
+                    ngbTooltip="Ubah"
+                  >
+                    <em class="fa fa-edit font-size-14"></em>
+                  </a>
+                  <a
+                    href="javascript: void(0);"
+                    class="align-middle"
+                    (click)="deleteProduct(product.id)"
+                    placement="left"
+                    container="body"
+                    ngbTooltip="Hapus"
+                  >
+                    <em class="fa fa-trash font-size-14"></em>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid" *ngIf="showForm">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-transparent">
+        <div class="card-header d-flex justify-content-between">
+          <h1>{{ titleForm }}</h1>
+        </div>
+        <div class="card-body">
+          <app-form-product
+            [productId]="productId"
+            (afterSave)="showForm = false"
+          ></app-form-product>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

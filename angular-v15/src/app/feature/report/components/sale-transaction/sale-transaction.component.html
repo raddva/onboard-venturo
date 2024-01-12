@@ -1,0 +1,147 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-transparent">
+        <div class="card-header d-flex justify-content-between">
+          <h4>Laporan Penjualan</h4>
+          <form class="form-inline d-flex align-items-center">
+            <div class="form-group flex-grow-1 mb-0 me-2">
+              <div class="input-group">
+                <app-daterangepicker
+                  [startDate]="filter.start_date"
+                  [endDate]="filter.end_date"
+                  [showRanges]="true"
+                  (onChange)="setFilterPeriod($event)"
+                >
+                </app-daterangepicker>
+              </div>
+            </div>
+            <div class="form-group flex-grow-1 mb-0 me-2">
+              <div class="input-group">
+                <ng-select
+                  [items]="customers"
+                  bindLabel="name"
+                  bindValue="id"
+                  [loading]="showLoading"
+                  [searchable]="false"
+                  name="customer_id"
+                  (change)="setFilterCustomer($event)"
+                  [multiple]="true"
+                  placeholder="Customer"
+                  style="width: 200px"
+                >
+                  <ng-template ng-header-tmp>
+                    <input
+                      class="form-control"
+                      type="text"
+                      debounceKeyUp
+                      (onEvent)="getCustomers($any($event.target).value)"
+                    />
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+            <div class="form-group flex-grow-1 mb-0 me-2">
+              <div class="input-group">
+                <ng-select
+                  [items]="products"
+                  bindLabel="name"
+                  bindValue="id"
+                  [loading]="showLoading"
+                  [searchable]="false"
+                  name="customer_id"
+                  (change)="setFilterProduct($event)"
+                  [multiple]="true"
+                  placeholder="Menu"
+                  style="width: 200px"
+                >
+                  <ng-template ng-header-tmp>
+                    <input
+                      class="form-control"
+                      type="text"
+                      debounceKeyUp
+                      (onEvent)="getProducts($any($event.target).value)"
+                    />
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="card-body">
+          <table class="table table-hover" datatable [dtOptions]="dtOptions">
+            <thead class="thead-light">
+              <tr>
+                <th class="text-center" style="width: 70px" rowspan="2">No</th>
+                <th class="text-center" rowspan="2">No. Struk</th>
+                <th class="text-center" rowspan="2">Customer</th>
+                <th class="text-center" rowspan="2">Tanggal</th>
+                <th class="text-center" colspan="2">Promo</th>
+                <th class="text-center" rowspan="2">Total Bayar</th>
+                <th class="text-center" rowspan="2">Menu</th>
+                <th class="text-center" rowspan="2">Jumlah</th>
+                <th class="text-center" rowspan="2">Harga</th>
+                <th class="text-center" rowspan="2">Total</th>
+              </tr>
+              <tr>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container
+                *ngFor="let transaction of transactions; let i = index"
+              >
+                <tr *ngFor="let trans of transaction; let j = index">
+                  <td class="vertical-middle text-center">
+                    {{ i * transaction.length + j + 1 }}
+                  </td>
+                  <td class="vertical-middle text-center">
+                    {{ trans.no_struk }}
+                  </td>
+                  <td class="vertical-middle text-center">
+                    {{ trans.customer_name }}
+                  </td>
+                  <td class="vertical-middle text-center">
+                    {{ trans.date_transaction }}
+                  </td>
+                  <td
+                    class="vertical-middle text-center"
+                    *ngIf="trans.discount != null; else hyphenBlock"
+                  >
+                    {{ trans.discount }}%
+                  </td>
+                  <td
+                    class="vertical-middle text-center"
+                    *ngIf="trans.voucher != null; else hyphenBlock"
+                  >
+                    {{ trans.voucher | number }}
+                  </td>
+                  <td class="vertical-middle text-center">
+                    {{ trans.product.total_with_discount | number }}
+                  </td>
+                  <td class="vertical-middle text-center">
+                    {{ trans.product.name }}
+                  </td>
+                  <td class="vertical-middle text-center">
+                    {{ trans.product.total_item }}
+                  </td>
+                  <td class="vertical-middle text-center">
+                    {{ trans.product.price | number }}
+                  </td>
+                  <td class="vertical-middle text-center">
+                    {{ trans.product.total_amount | number }}
+                  </td>
+                </tr>
+              </ng-container>
+              <ng-template #hyphenBlock>
+                <td class="vertical-middle text-center">-</td>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

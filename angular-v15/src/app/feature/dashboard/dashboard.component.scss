@@ -1,0 +1,73 @@
+.card-dashboard > .card-header {
+  background: #009aad;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.icon-container {
+  text-align: center;
+}
+
+.icon-container > .icon {
+  background: #009aad;
+  padding: 15px 20px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.4rem;
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.title-summary h3 {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #4a4a4a;
+  margin-bottom: 0px;
+}
+
+.title-summary h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4a4a4a;
+  margin-bottom: 0px;
+}
+
+#donate {
+  float: right;
+}
+
+#donate label {
+  float: right;
+  width: 60px;
+  background-color: #efefef;
+  border: 1px solid #fff;
+  overflow: auto;
+}
+
+#donate label span {
+  text-align: center;
+  font-size: 10px;
+  padding: 10px 0px;
+  display: block;
+}
+
+#donate label input {
+  position: absolute;
+  top: -20px;
+}
+
+#donate input:checked + span {
+  background-color: #fff;
+  color: #009aad;
+}
+#donate .check {
+  background-color: #009aad;
+  color: #fff;
+}
+
+input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}

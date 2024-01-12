@@ -1,0 +1,94 @@
+<form>
+  <div class="col-md-4">
+    <app-upload-image
+      [defaultImage]="formModel.photo_url"
+      [ratioHigh]="3"
+      [ratioWidth]="3"
+      (onSubmit)="getCroppedImage($event)"
+    >
+    </app-upload-image>
+  </div>
+  <div class="form-group row">
+    <label class="col-md-4 required">Nama</label>
+    <div class="col-md-8">
+      <input
+        [(ngModel)]="formModel.name"
+        type="text"
+        name="name"
+        class="form-control"
+        [ngClass]="{ disabled: isDisabledForm }"
+        placeholder="Nama Pengguna"
+      />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-md-4">Email</label>
+    <div class="col-md-8">
+      <input
+        [(ngModel)]="formModel.email"
+        type="email"
+        name="email"
+        class="form-control"
+        placeholder="Email Pengguna"
+      />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-md-4">Phone Number</label>
+    <div class="col-md-8">
+      <input
+        [(ngModel)]="formModel.phone_number"
+        type="text"
+        name="phone_number"
+        class="form-control"
+        placeholder="No Telepon"
+      />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-4 required">Date of Birth</label>
+    <div class="col-md-8">
+      <input
+        [(ngModel)]="formModel.date_of_birth"
+        type="text"
+        name="date_of_birth"
+        class="form-control"
+        placeholder="Tanggal Lahir"
+      />
+    </div>
+  </div>
+
+  <div class="form-group row" *ngIf="activeMode == MODE_UPDATE">
+    <label class="col-md-4 required">Status</label>
+    <div class="col-md-8">
+      <div class="btn-group btn-group-toggle">
+        <label ngbButtonLabel class="btn-primary" *ngFor="let ver of verified">
+          <input
+            ngbRadioGroup
+            ngbButton
+            [(ngModel)]="formModel.is_verified"
+            type="radio"
+            value="{{ ver.value }}"
+            name="is_verified"
+          />
+          {{ ver.label }}
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-4"></label>
+    <div class="col-md-8">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [ngClass]="{ disabled: isDisabledForm }"
+        (click)="save()"
+      >
+        Simpan
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,104 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card card-transparent rounded">
+        <div class="card-header d-flex justify-content-between">
+          <form class="form-inline d-flex align-items-center">
+            <div class="form-group flex-grow-1 mb-0 me-2">
+              <div class="input-group">
+                <ng-select
+                  [items]="customers"
+                  style="height: fit-content"
+                  bindLabel="name"
+                  bindValue="id"
+                  placeholder="Pilih Customer"
+                  [loading]="showLoading"
+                  [searchable]="false"
+                  [(ngModel)]="selectedCustomer"
+                  name="customer_id"
+                  style="width: 200px"
+                >
+                  <ng-template ng-header-tmp>
+                    <input
+                      class="form-control form-control-sm"
+                      type="text"
+                      debounceKeyUp
+                      (onEvent)="getCustomers($event.target.value)"
+                    />
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-3" *ngFor="let prd of products">
+              <div
+                class="container text-center mb-2"
+                (click)="addToSelectedProducts(prd)"
+              >
+                <div
+                  class="container-fluid p-2 rounded"
+                  style="
+                    background-color: #f8f9fa;
+                    height: 190px;
+                    position: relative;
+                  "
+                >
+                  <img
+                    src="{{ prd.photo_url }}"
+                    class="pro-img rounded"
+                    alt=""
+                  />
+                  <h5 class="mt-2">{{ prd.name }}</h5>
+                  <p class="text-primary fw-bold">
+                    {{ prd.price | number }}
+                  </p>
+                  <a
+                    href="javascript: void(0);"
+                    class="align-middle"
+                    (click)="formUpdate(formProduct, prd)"
+                    placement="left"
+                    container="body"
+                    ngbTooltip="Ubah"
+                    style="position: absolute; top: 10px; right: 10px"
+                  >
+                    <em class="fa fa-edit font-size-14"></em>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <app-form-sale
+        [selectedCustomer]="selectedCustomer"
+        [selectedProducts]="selectedProducts"
+      ></app-form-sale>
+    </div>
+  </div>
+</div>
+
+<ng-template #formProduct let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title mt-0">{{ titleModal }}</h5>
+    <button
+      type="button"
+      class="close"
+      (click)="modal.close()"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-form-product
+      [productId]="productId"
+      (afterSave)="showForm = false"
+    ></app-form-product>
+  </div>
+</ng-template>

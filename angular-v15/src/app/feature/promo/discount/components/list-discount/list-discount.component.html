@@ -1,0 +1,127 @@
+<div class="container-fluid" *ngIf="!showForm">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-transparent">
+        <div class="card-header d-flex justify-content-between">
+          <h1>Diskon</h1>
+          <div class="d-flex justify-content-end">
+            <form class="form-inline d-flex align-items-center">
+              <div class="form-group flex-grow-1 mb-0">
+                <div class="input-group">
+                  <ng-select
+                    [items]="listCustomers"
+                    [(ngModel)]="selectedCustomers"
+                    (ngModelChange)="filterByCustomer($event)"
+                    [multiple]="true"
+                    id="filter-customer"
+                    bindLabel="name"
+                    bindValue="id"
+                    [loading]="showLoading"
+                    [searchable]="false"
+                    name="customer_id"
+                    placeholder="Pilih Customer"
+                    style="width: 200px"
+                  >
+                    <ng-template ng-header-tmp>
+                      <input
+                        class="form-control form-control-sm"
+                        type="text"
+                        debounceKeyUp
+                        (onEvent)="getCustomers($event.target.value)"
+                      />
+                    </ng-template>
+                  </ng-select>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table table-hover" #tableComponent>
+            <thead>
+              <tr>
+                <th class="text-center" style="width: 70px">No</th>
+                <th class="text-center">Customer</th>
+                <th class="text-center" style="width: 10px"></th>
+                <th class="text-center"></th>
+                <th
+                  class="text-center"
+                  *ngFor="let pro of promo"
+                  style="width: 200px"
+                >
+                  {{ pro.name }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cust of listCustomers; let i = index">
+                <td class="vertical-middle text-center">
+                  {{ i + 1 }}
+                </td>
+                <td class="vertical-middle">
+                  {{ cust.name }}
+                </td>
+                <td class="vertical-middle text-left">
+                  <a
+                    href="javascript: void(0);"
+                    class="align-middle"
+                    (click)="updateCustomer(formCustomer, cust)"
+                    placement="left"
+                    container="body"
+                    ngbTooltip="Ubah"
+                  >
+                    <em class="fa fa-edit font-size-14"></em>
+                  </a>
+                </td>
+                <td></td>
+                <td
+                  class="vertical-middle text-center"
+                  *ngFor="let pro of promo"
+                >
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="status"
+                    [checked]="isDiscountApplied(cust.id, pro.id)"
+                    (change)="toggleDiscountStatus(cust.id, pro.id)"
+                  />
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>Total</th>
+                <th *ngFor="let pro of promo">
+                  {{ getTotalDiscountStatus(pro.id, discounts) }}
+                </th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #formCustomer let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title mt-0">{{ titleModal }}</h5>
+    <button
+      type="button"
+      class="close"
+      (click)="modal.close()"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-form-customer
+      [customerId]="customerId"
+      (afterSave)="modal.close()"
+    ></app-form-customer>
+  </div>
+</ng-template>

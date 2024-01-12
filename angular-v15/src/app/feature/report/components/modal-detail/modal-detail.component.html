@@ -1,0 +1,32 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>No Struk</th>
+      <th class="text-end">Total</th>
+      <th class="text-center">Diskon</th>
+      <th class="text-end">Total Payment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let transaction of transactions">
+      <tr *ngFor="let product of transaction.products">
+        <td>{{ transaction.no_struk }}</td>
+        <td class="text-end">Rp {{ product.total | number }}</td>
+        <td class="text-center">Rp {{ product.discount_nominal | number }}</td>
+        <td class="text-end">Rp {{ product.total_bayar | number }}</td>
+      </tr>
+    </ng-container>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th colspan="3">Total</th>
+      <th
+        class="nominal"
+        class="text-end"
+        *ngFor="let transaction of transactions"
+      >
+        Rp {{ transaction.total_sales | number }}
+      </th>
+    </tr>
+  </tfoot>
+</table>

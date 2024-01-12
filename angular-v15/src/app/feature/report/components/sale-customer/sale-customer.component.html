@@ -1,0 +1,177 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-transparent">
+        <div class="card-header d-flex justify-content-between">
+          <form class="form-inline d-flex align-items-center">
+            <div class="form-group flex-grow-1 mb-0 me-2">
+              <div class="input-group">
+                <app-daterangepicker
+                  [startDate]="filter.start_date"
+                  [endDate]="filter.end_date"
+                  [showRanges]="true"
+                  (onChange)="setFilterPeriod($event)"
+                ></app-daterangepicker>
+              </div>
+            </div>
+            <div class="form-group flex-grow-1 mb-0 me-2">
+              <ng-select
+                [items]="customers"
+                bindLabel="name"
+                bindValue="id"
+                placeholder="Pilih Customer"
+                [loading]="showLoading"
+                [searchable]="false"
+                name="customer_id"
+                (change)="setFilterCustomer($event)"
+                [multiple]="true"
+                style="width: 200px"
+              >
+                <ng-template ng-header-tmp>
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    debounceKeyUp
+                    (onEvent)="getCustomers($any($event.target).value)"
+                  />
+                </ng-template>
+              </ng-select>
+            </div>
+          </form>
+          <div class="d-flex justify-content-end">
+            <button
+              type="button"
+              class="btn btn-sm btn-primary me-2"
+              (click)="reloadSales()"
+            >
+              Tampilkan
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm btn-primary"
+              (click)="downloadExcel()"
+            >
+              Excel
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="table table-responsive">
+            <table class="table table-hover" id="report-sales">
+              <thead class="thead-light">
+                <tr>
+                  <th style="width: 70px; vertical-align: middle" id="menu">
+                    No
+                  </th>
+                  <th style="vertical-align: middle" id="menu">Customer</th>
+                  <th
+                    *ngFor="let date of meta.dates"
+                    id="date"
+                    class="text-end"
+                  >
+                    {{ date | date : "dd" }}
+                  </th>
+                  <th
+                    style="vertical-align: middle"
+                    rowspan="2"
+                    id="total"
+                    class="text-end"
+                  >
+                    Total
+                  </th>
+                </tr>
+              </thead>
+              <tbody *ngIf="customersNotEmpty()">
+                <ng-container *ngFor="let customer of sales; let i = index">
+                  <tr class="customer">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ customer.customer_name }}</td>
+                    <td
+                      class="nominal"
+                      *ngFor="
+                        let transaction of customer.transactions;
+                        let j = index
+                      "
+                      class="text-end"
+                    >
+                      <ng-container
+                        *ngIf="transaction.total_sales != 0; else hyphenBlock"
+                      >
+                        <a
+                          href="javascript: void(0);"
+                          class="align-middle me-2"
+                          (click)="
+                            detailTransaction(
+                              modalDetail,
+                              customer,
+                              meta.dates[j]
+                            )
+                          "
+                          placement="left"
+                          container="body"
+                          ngbTooltip="Ubah"
+                        >
+                          Rp {{ transaction.total_sales | number }}
+                        </a>
+                      </ng-container>
+                    </td>
+                    <td
+                      class="nominal"
+                      class="text-end"
+                      *ngIf="customer.customer_total != 0; else hyphenBlock"
+                    >
+                      Rp {{ customer.customer_total | number }}
+                    </td>
+                  </tr>
+                </ng-container>
+
+                <tr class="customer">
+                  <th colspan="2">Grand Total</th>
+                  <th
+                    class="nominal"
+                    *ngFor="let total of meta?.total_per_date"
+                    class="text-end"
+                  >
+                    <ng-container *ngIf="total != 0; else hyphenBlock">
+                      Rp {{ total | number }}
+                    </ng-container>
+                  </th>
+                  <th
+                    class="nominal"
+                    class="text-end"
+                    *ngIf="meta?.grand_total != 0; else hyphenBlock"
+                  >
+                    Rp {{ meta?.grand_total | number }}
+                  </th>
+                </tr>
+                <ng-template #hyphenBlock> - </ng-template>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalDetail let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title mt-0">{{ titleModal }}</h5>
+    <button
+      type="button"
+      class="close"
+      (click)="modal.close()"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-modal-detail
+      [customerId]="customerId"
+      [selectedDate]="selectedDate"
+      (afterSave)="modal.close()"
+    ></app-modal-detail>
+  </div>
+</ng-template>

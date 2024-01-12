@@ -1,0 +1,195 @@
+<form>
+  <div class="container rounded bg-white mt-5 p-3">
+    <div class="row">
+      <h5 class="text-left">Detail Order</h5>
+      <div class="col-md-10">
+        <h2 class="text-primary" *ngIf="!isObject(selectedCustomer)">
+          {{ customer.name }}
+        </h2>
+        <h2 class="text-primary" *ngIf="isObject(selectedCustomer)">
+          Customer name
+        </h2>
+      </div>
+      <div class="col-md-2">
+        <a
+          *ngIf="!isObject(selectedCustomer)"
+          href="javascript: void(0);"
+          class="align-middle"
+          (click)="updateCustomer(formCustomer, customer)"
+          placement="left"
+          container="body"
+          ngbTooltip="Ubah"
+        >
+          <em class="fa fa-edit font-size-14"></em>
+        </a>
+      </div>
+    </div>
+
+    <hr class="hr" />
+    <div class="row">
+      <h6 class="vertical-middle">Promo</h6>
+      <div class="row" *ngIf="discounts">
+        <div class="col-md-3 mb-2" *ngFor="let disc of discounts">
+          <div
+            class="container rounded align-items-center p-1"
+            style="
+              background-color: #f8f9fa;
+              width: 100px;
+              margin-right: 10px;
+              height: 80px;
+            "
+          >
+            <h3 class="text-primary text-center">
+              {{ disc.promo.nominal_percentage }}%
+            </h3>
+            <p class="text-center">
+              <small>{{ disc.promo.name }}</small>
+            </p>
+          </div>
+        </div>
+
+        <div *ngIf="vouchers">
+          <div class="col-md-3 mb-2" *ngFor="let voc of vouchers">
+            <div
+              class="container rounded align-items-center p-1"
+              style="
+                background-color: #f8f9fa;
+                width: 100px;
+                margin-right: 10px;
+                height: 80px;
+              "
+            >
+              <h3 class="text-primary text-center">
+                {{ voc.promo.nominal_rupiah | number }}
+              </h3>
+              <p class="text-center">
+                <small>{{ voc.promo.name }}</small>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="hr" />
+    <div
+      class="row p-2"
+      dndDropzone
+      dndEffectAllowed="move"
+      *ngFor="let prd of selectedProducts; let i = index"
+      (dndDrop)="onDrop($event, selectedProducts)"
+    >
+      <div
+        class="container rounded p-2 align-items-center"
+        style="background-color: #f8f9fa"
+        [dndDraggable]="prd"
+        dndEffectAllowed="move"
+        (dndMoved)="onDragged($event, selectedProducts, i)"
+      >
+        <div class="row">
+          <div class="col-md-2">
+            <img
+              src="{{ prd.photo_url }}"
+              style="width: 70px"
+              class="rounded"
+            />
+          </div>
+          <div
+            class="col-md-6 d-flex justify-content-center flex-column ms-2 me-4"
+          >
+            <h6 class="mb-0">{{ prd.name }}</h6>
+            <h5 class="text-primary mb-0">Rp. {{ prd.price | number }}</h5>
+
+            <p class="mb-0">
+              <a
+                href="javascript: void(0);"
+                placement="left"
+                container="body"
+                ngbTooltip="Ubah"
+              >
+                <em class="fa fa-edit font-size-6"></em>
+              </a>
+              Notes
+            </p>
+          </div>
+
+          <div class="col-md-3 d-flex justify-content-center flex-column">
+            <div class="d-flex align-items-center">
+              <a
+                (click)="decrementQuantity(prd)"
+                class="btn btn-outline-primary btn-sm me-2"
+                role="button"
+                >-</a
+              >
+              <h5 class="mb-0">{{ prd.quantity || 1 }}</h5>
+              <a
+                (click)="incrementQuantity(prd)"
+                class="btn btn-outline-primary btn-sm ms-2"
+                role="button"
+                >+</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr />
+    <div class="row">
+      <h6>Detail Pembayaran</h6>
+      <div class="col-md-9">
+        <p>Subtotal</p>
+        <p>Tax 11%</p>
+        <p>Diskon {{ totalDiscPercent }}%</p>
+        <div class="row ms-2" *ngFor="let disc of discounts">
+          <small>- {{ disc.promo.name }}</small>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <p class="text-end">Rp. {{ subtotal() | number }}</p>
+        <p class="text-end">Rp. {{ tax(subtotal()) | number }}</p>
+        <p class="text-end">- Rp. {{ discNominal(subtotal()) | number }}</p>
+      </div>
+    </div>
+
+    <hr />
+    <div class="row">
+      <div class="col-md-8">
+        <p class="fw-bolder fs-5">Total Pembayaran</p>
+      </div>
+      <div class="col-md-4">
+        <p class="fw-bolder fs-5 text-end">Rp {{ total() | number }}</p>
+      </div>
+    </div>
+    <div class="d-grid">
+      <button
+        type="button"
+        class="btn btn-sm btn-primary btn-block fw-bold"
+        (click)="addDetail(); insert()"
+      >
+        <em class="fa fa-plus font-size-4"></em>
+        Tambah Pesanan
+      </button>
+    </div>
+  </div>
+</form>
+
+<ng-template #formCustomer let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title mt-0">{{ titleModal }}</h5>
+    <button
+      type="button"
+      class="close"
+      (click)="modal.close()"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-form-customer
+      [customerId]="customerId"
+      (afterSave)="modal.close()"
+    ></app-form-customer>
+  </div>
+</ng-template>

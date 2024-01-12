@@ -1,0 +1,129 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-transparent">
+        <div class="card-header d-flex justify-content-between">
+          <h1>Daftar Customer</h1>
+          <div class="d-flex justify-content-end">
+            <form class="form-inline">
+              <div class="form-group mb-0 d-flex align-items-center">
+                <label class="me-2">Nama</label>
+                <div class="input-group input-group-sm">
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    [(ngModel)]="filter.name"
+                    name="name"
+                  />
+                  <div class="input-group-append" (click)="reloadDataTable()">
+                    <span class="input-group-text">
+                      <em class="fa fa-search"></em>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="form-group mb-0 ms-2">
+              <select
+                class="form-control form-control-sm"
+                [(ngModel)]="filter.is_verified"
+                name="is_verified"
+                (change)="reloadDataTable()"
+              >
+                <option selected value="">-- Select Status --</option>
+                <option value="1">Sudah Verifikasi</option>
+                <option value="0">Belum Verifikasi</option>
+              </select>
+            </div>
+            <button
+              type="button"
+              class="btn btn-sm btn-primary ms-2"
+              (click)="createCustomer(formCustomer)"
+            >
+              <em class="fa fa-plus font-size-14 align-middle me-1"></em> Tambah
+              Customer
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table table-hover" datatable [dtOptions]="dtOptions">
+            <thead>
+              <tr>
+                <th style="width: 5%">No</th>
+                <th class="">Nama</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let customer of listCustomer">
+                <td>{{ customer.no }}</td>
+                <td class="vertical-middle">{{ customer.name }}</td>
+                <td class="vertical-middle">{{ customer.email }}</td>
+                <td class="vertical-middle">
+                  <div class="w-50">
+                    <p
+                      class="badge bg-success"
+                      *ngIf="customer.is_verified == 1"
+                    >
+                      Sudah Terverifikasi
+                    </p>
+                    <p
+                      class="badge bg-danger"
+                      *ngIf="customer.is_verified == 0"
+                    >
+                      Belum Terverifikasi
+                    </p>
+                  </div>
+                </td>
+                <td class="vertical-middle text-center">
+                  <a
+                    href="javascript: void(0);"
+                    class="align-middle me-2"
+                    (click)="updateCustomer(formCustomer, customer)"
+                    placement="left"
+                    container="body"
+                    ngbTooltip="Ubah"
+                  >
+                    <em class="fa fa-edit font-size-14"></em>
+                  </a>
+                  <a
+                    href="javascript: void(0);"
+                    class="align-middle"
+                    (click)="deleteCustomer(customer.id)"
+                    placement="left"
+                    container="body"
+                    ngbTooltip="Hapus"
+                  >
+                    <em class="fa fa-trash font-size-14"></em>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <ng-template #formCustomer let-modal>
+          <div class="modal-header">
+            <h5 class="modal-title mt-0">{{ titleModal }}</h5>
+            <button
+              type="button"
+              class="close"
+              (click)="modal.close()"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <app-form-customer
+              [customerId]="customerId"
+              (afterSave)="modal.close(); getCustomer()"
+            ></app-form-customer>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
