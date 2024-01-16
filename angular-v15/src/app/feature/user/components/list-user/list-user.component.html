@@ -37,22 +37,22 @@
           <table class="table table-hover" datatable [dtOptions]="dtOptions">
             <thead class="thead-light">
               <tr>
-                <th class="text-center">No</th>
-                <th class="text-center">Nama</th>
-                <th class="text-center">Email</th>
+                <th class="text-end" style="width: 5%">No</th>
+                <th class="text-start">Nama</th>
+                <th class="text-start">Email</th>
                 <th class="text-center">Telepon</th>
                 <th class="text-center"></th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let user of listUser">
-                <td class="text-center">{{ user.no }}</td>
-                <td class="vertical-middle text-center">{{ user.name }}</td>
-                <td class="vertical-middle text-center">{{ user.email }}</td>
+                <td class="text-end">{{ user.no }}</td>
+                <td class="vertical-middle text-start">{{ user.name }}</td>
+                <td class="vertical-middle text-start">{{ user.email }}</td>
                 <td class="vertical-middle text-center">
                   {{ user.phone_number }}
                 </td>
-                <td class="vertical-middle text-center text-right">
+                <td class="vertical-middle text-center">
                   <a
                     href="javascript: void(0);"
                     class="align-middle me-2"
@@ -97,7 +97,7 @@
   <div class="modal-body">
     <app-form-user
       [userId]="userId"
-      (afterSave)="modal.close(); getUser()"
+      (afterSave)="modal.close(); reloadDataTable()"
     ></app-form-user>
   </div>
 </ng-template>

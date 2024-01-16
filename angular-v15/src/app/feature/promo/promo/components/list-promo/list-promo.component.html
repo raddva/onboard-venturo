@@ -50,36 +50,36 @@
           <table class="table table-hover" datatable [dtOptions]="dtOptions">
             <thead class="thead-light">
               <tr>
-                <th class="text-center" style="width: 70px">No</th>
+                <th class="text-end" style="width: 5%">No</th>
                 <th class="text-center">Foto</th>
                 <th class="text-center">Nama</th>
                 <th class="text-center">Type</th>
-                <th class="text-center">Total</th>
+                <th class="text-center" style="width: 10%">Total</th>
                 <th class="text-center"></th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let promo of listPromo">
-                <td class="vertical-middle text-center">
+                <td class="align-middle text-end">
                   {{ promo.no }}
                 </td>
-                <td class="vertical-middle text-center">
+                <td class="align-middle text-center">
                   <img class="img-promo" src="{{ promo.photo_url }}" alt="" />
                 </td>
-                <td class="vertical-middle text-center">{{ promo.name }}</td>
+                <td class="align-middle text-start">{{ promo.name }}</td>
                 <td
-                  class="vertical-middle text-center"
+                  class="align-middle text-center"
                   *ngIf="promo.status == 'voucher'"
                 >
                   Voucher
                 </td>
                 <td
-                  class="vertical-middle text-center"
+                  class="align-middle text-center"
                   *ngIf="promo.status == 'diskon'"
                 >
                   Diskon
                 </td>
-                <td class="vertical-middle text-center">
+                <td class="align-middle text-center">
                   {{
                     promo.nominal_percentage
                       ? (promo.nominal_percentage | number) + "%"
@@ -87,7 +87,7 @@
                   }}
                 </td>
 
-                <td class="vertical-middle text-center text-right">
+                <td class="align-middle text-center">
                   <a
                     href="javascript: void(0);"
                     class="align-middle me-2"

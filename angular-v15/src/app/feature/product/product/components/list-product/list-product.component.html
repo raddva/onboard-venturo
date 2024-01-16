@@ -73,32 +73,32 @@
           <table class="table table-hover" datatable [dtOptions]="dtOptions">
             <thead class="thead-light">
               <tr>
-                <th class="text-center" style="width: 70px">No</th>
-                <th class="text-center">Gambar</th>
-                <th class="text-center">Nama</th>
-                <th class="text-center">Kategori</th>
-                <th class="text-center">Status</th>
-                <th class="text-center">Harga</th>
+                <th class="text-center" style="width: 5%">No</th>
+                <th class="text-center" style="width: 10%">Gambar</th>
+                <th class="text-start">Nama</th>
+                <th class="text-start">Kategori</th>
+                <th class="text-center" style="width: 5%">Status</th>
+                <th class="text-end">Harga</th>
                 <th class="text-center"></th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let product of listProduct">
-                <td class="vertical-middle text-center">
+                <td class="align-middle text-end">
                   {{ product.no }}
                 </td>
-                <td class="vertical-middle text-center">
+                <td class="align-middle text-center">
                   <img
                     class="img-product"
                     src="{{ product.photo_url }}"
                     alt=""
                   />
                 </td>
-                <td class="vertical-middle text-center">{{ product.name }}</td>
-                <td class="vertical-middle text-center">
+                <td class="align-middle text-start">{{ product.name }}</td>
+                <td class="align-middle text-start">
                   {{ product.product_category_name }}
                 </td>
-                <td class="vertical-middle text-center">
+                <td class="align-middle text-center">
                   <label
                     class="badge bg-success"
                     *ngIf="product.is_available == 1"
@@ -110,10 +110,10 @@
                     >Habis</label
                   >
                 </td>
-                <td class="vertical-middle text-center">
+                <td class="align-middle text-end">
                   Rp {{ product.price | number }}
                 </td>
-                <td class="vertical-middle text-center text-right">
+                <td class="align-middle text-center">
                   <a
                     href="javascript: void(0);"
                     class="align-middle me-2"

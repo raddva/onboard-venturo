@@ -73,9 +73,11 @@
           <table class="table table-hover" datatable [dtOptions]="dtOptions">
             <thead class="thead-light">
               <tr>
-                <th class="text-center" style="width: 70px" rowspan="2">No</th>
+                <th class="text-center" style="width: 5%" rowspan="2">No</th>
                 <th class="text-center" rowspan="2">No. Struk</th>
-                <th class="text-center" rowspan="2">Customer</th>
+                <th class="text-center" rowspan="2" style="width: 150px">
+                  Customer
+                </th>
                 <th class="text-center" rowspan="2">Tanggal</th>
                 <th class="text-center" colspan="2">Promo</th>
                 <th class="text-center" rowspan="2">Total Bayar</th>
@@ -94,13 +96,13 @@
                 *ngFor="let transaction of transactions; let i = index"
               >
                 <tr *ngFor="let trans of transaction; let j = index">
-                  <td class="vertical-middle text-center">
+                  <td class="vertical-middle text-end">
                     {{ i * transaction.length + j + 1 }}
                   </td>
-                  <td class="vertical-middle text-center">
+                  <td class="vertical-middle text-start">
                     {{ trans.no_struk }}
                   </td>
-                  <td class="vertical-middle text-center">
+                  <td class="vertical-middle text-start">
                     {{ trans.customer_name }}
                   </td>
                   <td class="vertical-middle text-center">
@@ -118,7 +120,7 @@
                   >
                     {{ trans.voucher | number }}
                   </td>
-                  <td class="vertical-middle text-center">
+                  <td class="vertical-middle text-end">
                     {{ trans.product.total_with_discount | number }}
                   </td>
                   <td class="vertical-middle text-center">
@@ -127,10 +129,10 @@
                   <td class="vertical-middle text-center">
                     {{ trans.product.total_item }}
                   </td>
-                  <td class="vertical-middle text-center">
+                  <td class="vertical-middle text-end">
                     {{ trans.product.price | number }}
                   </td>
-                  <td class="vertical-middle text-center">
+                  <td class="vertical-middle text-end">
                     {{ trans.product.total_amount | number }}
                   </td>
                 </tr>

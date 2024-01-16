@@ -1,0 +1,17 @@
+#report-sales tr td.name {
+  min-width: 250px;
+}
+
+#report-sales tr td.nominal {
+  min-width: 100px;
+  text-align: right;
+}
+
+#report-sales tr th.nominal {
+  min-width: 100px;
+  text-align: right;
+}
+
+#report-sales tr.customer {
+  background: #f8f9fa;
+}

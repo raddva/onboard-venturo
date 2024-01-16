@@ -54,37 +54,37 @@
           <table class="table table-hover" datatable [dtOptions]="dtOptions">
             <thead class="thead-light">
               <tr>
-                <th class="text-center" style="width: 70px">No</th>
-                <th class="text-center">Voucher</th>
+                <th class="text-center" style="width: 5%">No</th>
+                <th class="text-center" style="width: 15%">Voucher</th>
                 <th class="text-center">Customer</th>
-                <th class="text-center">Total Voucher</th>
+                <th class="text-center" style="width: 10%">Total Voucher</th>
                 <th class="text-center">Periode</th>
                 <th class="text-center"></th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let voucher of listVoucher">
-                <td class="vertical-middle text-center">
+                <td class="align-middle text-center">
                   {{ voucher.no }}
                 </td>
-                <td class="vertical-middle text-center">
+                <td class="align-middle text-center">
                   <img
                     class="img-voucher"
                     src="{{ voucher.photo_url }}"
                     alt=""
                   />
                 </td>
-                <td class="vertical-middle text-center">
+                <td class="align-middle text-start">
                   {{ voucher.customer_name }}
                 </td>
-                <td class="vertical-middle text-center">
+                <td class="align-middle text-center">
                   {{ voucher.total_voucher | number }}
                 </td>
-                <td class="vertical-middle text-center">
+                <td class="align-middle text-center">
                   {{ voucher.start_time | date : "dd-MM-yyyy" }} s.d
                   {{ voucher.end_time | date : "dd-MM-yyyy" }}
                 </td>
-                <td class="vertical-middle text-center text-right">
+                <td class="align-middle text-center text-right">
                   <a
                     href="javascript: void(0);"
                     class="align-middle me-2"

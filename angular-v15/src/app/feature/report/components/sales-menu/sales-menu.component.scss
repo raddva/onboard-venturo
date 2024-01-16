@@ -1,0 +1,21 @@
+#report-sales tr td {
+  min-width: 170px;
+}
+
+#report-sales tr td.nominal {
+  min-width: 50px;
+  text-align: right;
+}
+
+#report-sales tr th.nominal {
+  min-width: 50px;
+  text-align: right;
+}
+
+#report-sales tr.category {
+  background: #f8f9fa;
+}
+
+#report-sales tr.category td {
+  font-weight: 700;
+}

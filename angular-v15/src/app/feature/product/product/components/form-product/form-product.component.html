@@ -46,7 +46,7 @@
                 #categoryInput
                 (onEvent)="getCategories($event.target.value)"
               />
-              <div *ngIf="categories.length === 0">
+              <div *ngIf="categories.length == 0">
                 <a
                   class="btn btn-link btn-sm"
                   (click)="createCategory(formCategory)"
@@ -131,10 +131,7 @@
           <tbody>
             <tr *ngFor="let detail of formModel.details; index as i">
               <td>
-                <button
-                  class="btn btn-sm btn-danger"
-                  (click)="removeDetail(formModel.details, i)"
-                >
+                <button class="btn btn-sm btn-danger" (click)="removeDetail(i)">
                   <em class="fa fa-trash"></em>
                 </button>
               </td>
@@ -153,7 +150,7 @@
                   name="type[{{ i }}]"
                   appendTo="body"
                   [(ngModel)]="detail.type"
-                  placeholder="{{ detail.type ? '' : 'Pilih Tipe' }}"
+                  placeholder="Pilih Tipe"
                   [searchable]="false"
                   class="form-control"
                   (change)="changeDetail(detail)"

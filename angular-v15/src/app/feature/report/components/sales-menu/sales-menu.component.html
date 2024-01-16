@@ -59,13 +59,7 @@
             <table class="table table-hover" id="report-sales">
               <thead class="thead-light">
                 <tr>
-                  <th
-                    style="width: 70px; vertical-align: middle"
-                    rowspan="2"
-                    id="menu"
-                  >
-                    Menu
-                  </th>
+                  <th rowspan="2" id="menu">Menu</th>
                   <th
                     [colSpan]="meta?.dates?.length"
                     class="text-center"
@@ -73,13 +67,7 @@
                   >
                     Periode
                   </th>
-                  <th
-                    style="width: 70px; vertical-align: middle"
-                    rowspan="2"
-                    id="total"
-                  >
-                    Total
-                  </th>
+                  <th rowspan="2" id="total">Total</th>
                 </tr>
                 <tr>
                   <th *ngFor="let date of meta.dates" id="date">
@@ -93,7 +81,10 @@
                     <th [colSpan]="meta?.dates?.length + 1 * 1">
                       {{ category.category_name }}
                     </th>
-                    <th class="nominal">
+                    <th
+                      class="nominal"
+                      *ngIf="category.category_total != 0; else hyphenBlock"
+                    >
                       {{ category.category_total | number }}
                     </th>
                   </tr>
@@ -105,9 +96,16 @@
                       class="nominal"
                       *ngFor="let sale of product.transactions"
                     >
-                      {{ sale.total_sales | number }}
+                      <ng-container
+                        *ngIf="sale.total_sales != 0; else hyphenBlock"
+                      >
+                        {{ sale.total_sales | number }}
+                      </ng-container>
                     </td>
-                    <td class="nominal">
+                    <td
+                      class="nominal"
+                      *ngIf="product.transactions_total != 0; else hyphenBlock"
+                    >
                       {{ product.transactions_total | number }}
                     </td>
                   </tr>
@@ -118,10 +116,18 @@
                     class="nominal"
                     *ngFor="let total of meta?.total_per_date"
                   >
-                    {{ total | number }}
+                    <ng-container *ngIf="total != 0; else hyphenBlock">
+                      {{ total | number }}
+                    </ng-container>
                   </th>
-                  <th class="nominal">{{ meta?.grand_total | number }}</th>
+                  <th
+                    class="nominal"
+                    *ngIf="meta?.grand_total != 0; else hyphenBlock"
+                  >
+                    {{ meta?.grand_total | number }}
+                  </th>
                 </tr>
+                <ng-template #hyphenBlock> - </ng-template>
               </tbody>
             </table>
           </div>

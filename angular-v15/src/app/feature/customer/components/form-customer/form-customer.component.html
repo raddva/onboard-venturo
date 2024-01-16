@@ -62,8 +62,8 @@
   <div class="form-group row" *ngIf="activeMode == MODE_UPDATE">
     <label class="col-md-4 required">Status</label>
     <div class="col-md-8">
-      <div class="btn-group btn-group-toggle">
-        <label ngbButtonLabel class="btn-primary" *ngFor="let ver of verified">
+      <div id="donate">
+        <label class="check" *ngFor="let ver of verified">
           <input
             ngbRadioGroup
             ngbButton
@@ -72,7 +72,9 @@
             value="{{ ver.value }}"
             name="is_verified"
           />
-          {{ ver.label }}
+          <span>
+            {{ ver.label }}
+          </span>
         </label>
       </div>
     </div>

@@ -89,7 +89,7 @@ export class ListCustomerComponent {
   deleteCustomer(customerId) {
     Swal.fire({
       title: "Apakah kamu yakin ?",
-      text: "customer ini tidak dapat login setelah kamu menghapus datanya",
+      text: "customer ini akan dihapus",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#34c38f",
@@ -99,7 +99,7 @@ export class ListCustomerComponent {
       if (!result.value) return false;
 
       this.customerService.deleteCustomer(customerId).subscribe((res: any) => {
-        this.getCustomer();
+        this.reloadDataTable();
       });
     });
   }

@@ -45,7 +45,7 @@ export class FormProductComponent implements OnInit {
     photo_url: string;
     is_available: string;
     details: any;
-    details_deleted: any;
+    details_deleted: any[];
   };
 
   constructor(
@@ -106,6 +106,7 @@ export class FormProductComponent implements OnInit {
     this.productService.getProductId(productId).subscribe(
       (res: any) => {
         this.formModel = res.data;
+        console.log(res.data);
       },
       (err) => {
         console.log(err);
@@ -125,7 +126,6 @@ export class FormProductComponent implements OnInit {
   }
 
   insert() {
-    console.log(this.formModel);
     this.productService.createProduct(this.formModel).subscribe(
       (res: any) => {
         this.landaService.alertSuccess("Berhasil", res.message);
@@ -161,10 +161,18 @@ export class FormProductComponent implements OnInit {
     this.formModel.details.push(val);
   }
 
-  removeDetail(details, paramIndex) {
-    details.splice(paramIndex, 1);
-    if (details[paramIndex]?.id) {
-      this.formModel.details_deleted.push(details[paramIndex]);
+  removeDetail(paramIndex: number) {
+    const removedDetail = this.formModel.details[paramIndex];
+    if (!this.formModel.details_deleted) {
+      this.formModel.details_deleted = [];
+    }
+
+    if (Array.isArray(this.formModel.details)) {
+      this.formModel.details.splice(paramIndex, 1);
+
+      if (removedDetail?.id) {
+        this.formModel.details_deleted.push(removedDetail);
+      }
     }
   }
 

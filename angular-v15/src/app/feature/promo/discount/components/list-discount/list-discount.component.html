@@ -93,8 +93,8 @@
                 <th></th>
                 <th></th>
                 <th></th>
-                <th>Total</th>
-                <th *ngFor="let pro of promo">
+                <th class="text-start">Total</th>
+                <th *ngFor="let pro of promo" class="text-center">
                   {{ getTotalDiscountStatus(pro.id, discounts) }}
                 </th>
               </tr>

@@ -49,19 +49,19 @@
           <table class="table table-hover" datatable [dtOptions]="dtOptions">
             <thead>
               <tr>
-                <th style="width: 5%">No</th>
+                <th style="width: 5%" class="text-end">No</th>
                 <th class="">Nama</th>
                 <th>Email</th>
-                <th>Status</th>
+                <th style="width: 10%" class="text-start">Status</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let customer of listCustomer">
-                <td>{{ customer.no }}</td>
-                <td class="vertical-middle">{{ customer.name }}</td>
+                <td class="text-end">{{ customer.no }}</td>
+                <td class="text-start">{{ customer.name }}</td>
                 <td class="vertical-middle">{{ customer.email }}</td>
-                <td class="vertical-middle">
+                <td class="text-center">
                   <div class="w-50">
                     <p
                       class="badge bg-success"
@@ -119,7 +119,7 @@
           <div class="modal-body">
             <app-form-customer
               [customerId]="customerId"
-              (afterSave)="modal.close(); getCustomer()"
+              (afterSave)="modal.close(); reloadDataTable()"
             ></app-form-customer>
           </div>
         </ng-template>

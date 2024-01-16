@@ -1,5 +1,5 @@
-<div class="container bg-light p-3">
-  <form>
+<form>
+  <div class="row">
     <div class="col-md-4">
       <app-upload-image
         [defaultImage]="formModel.photo_url"
@@ -9,89 +9,92 @@
       >
       </app-upload-image>
     </div>
-    <div class="form-group row">
-      <label class="col-md-4 required">Nama</label>
-      <div class="col-md-8">
-        <input
-          [(ngModel)]="formModel.name"
-          type="text"
-          name="name"
-          class="form-control"
-          [ngClass]="{ disabled: isDisabledForm }"
-          placeholder="Nama Pengguna"
-        />
+    <div class="col-md-8">
+      <div class="form-group row">
+        <label class="col-md-4 required">Nama</label>
+        <div class="col-md-8">
+          <input
+            [(ngModel)]="formModel.name"
+            type="text"
+            name="name"
+            class="form-control"
+            [ngClass]="{ disabled: isDisabledForm }"
+            placeholder="Nama Pengguna"
+          />
+        </div>
       </div>
-    </div>
-    <div class="form-group row">
-      <label class="col-md-4 required">Email</label>
-      <div class="col-md-8">
-        <input
-          [(ngModel)]="formModel.email"
-          type="email"
-          name="email"
-          class="form-control"
-          placeholder="Email Pengguna"
-        />
+      <div class="form-group row">
+        <label class="col-md-4 required">Email</label>
+        <div class="col-md-8">
+          <input
+            [(ngModel)]="formModel.email"
+            type="email"
+            name="email"
+            class="form-control"
+            placeholder="Email Pengguna"
+          />
+        </div>
       </div>
-    </div>
-    <div class="form-group row">
-      <label class="col-md-4">Phone Number</label>
-      <div class="col-md-8">
-        <input
-          [(ngModel)]="formModel.phone_number"
-          type="text"
-          name="phone_number"
-          class="form-control"
-          placeholder="No Telepon"
-        />
+      <div class="form-group row">
+        <label class="col-md-4">Phone Number</label>
+        <div class="col-md-8">
+          <input
+            [(ngModel)]="formModel.phone_number"
+            type="text"
+            name="phone_number"
+            class="form-control"
+            placeholder="No Telepon"
+          />
+        </div>
       </div>
-    </div>
-    <div class="form-group row">
-      <label class="col-md-4">Password</label>
-      <div class="col-md-8">
-        <input
-          [(ngModel)]="formModel.password"
-          type="password"
-          name="password"
-          class="form-control"
-          [ngClass]="{ disabled: isDisabledForm }"
-          placeholder="Password"
-        />
-        <small class="form-text text-muted"
-          >Kosongi password jika tidak diubah
-        </small>
+      <div class="form-group row">
+        <label class="col-md-4">Password</label>
+        <div class="col-md-8">
+          <input
+            [(ngModel)]="formModel.password"
+            type="password"
+            name="password"
+            class="form-control"
+            [ngClass]="{ disabled: isDisabledForm }"
+            placeholder="Password"
+          />
+          <small class="form-text text-muted"
+            >Kosongi password jika tidak diubah
+          </small>
+        </div>
       </div>
-    </div>
-    <div class="form-group row">
-      <label class="col-md-4">Status</label>
-      <div class="col-md-8">
-        <div class="btn-group btn-group-toggle">
-          <label ngbButtonLabel class="btn-primary" *ngFor="let role of roles">
-            <input
-              ngbRadioGroup
-              ngbButton
-              [(ngModel)]="formModel.user_roles_id"
-              type="radio"
-              value="{{ role.id }}"
-              name="user_roles_id"
-            />
-            {{ role.name }}
-          </label>
+      <div class="form-group row">
+        <label class="col-md-4">Status</label>
+        <div class="col-md-8">
+          <div id="donate">
+            <label class="check" *ngFor="let role of roles">
+              <input
+                ngbButton
+                [(ngModel)]="formModel.user_roles_id"
+                type="radio"
+                value="{{ role.id }}"
+                name="user_roles_id"
+              />
+              <span>
+                {{ role.name }}
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-md-4"></label>
+        <div class="col-md-8">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [ngClass]="{ disabled: isDisabledForm }"
+            (click)="update()"
+          >
+            Simpan
+          </button>
         </div>
       </div>
     </div>
-    <div class="form-group row">
-      <label class="col-md-4"></label>
-      <div class="col-md-8">
-        <button
-          type="submit"
-          class="btn btn-primary"
-          [ngClass]="{ disabled: isDisabledForm }"
-          (click)="update()"
-        >
-          Simpan
-        </button>
-      </div>
-    </div>
-  </form>
-</div>
+  </div>
+</form>

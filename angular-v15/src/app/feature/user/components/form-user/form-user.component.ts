@@ -14,6 +14,7 @@ import { LandaService } from "src/app/core/services/landa.service";
   styleUrls: ["./form-user.component.scss"],
 })
 export class FormUserComponent implements OnInit {
+  readonly DEFAULT_ROLE = "2";
   readonly MODE_CREATE = "add";
   readonly MODE_UPDATE = "update";
 
@@ -75,7 +76,7 @@ export class FormUserComponent implements OnInit {
       email: "",
       password: "",
       phone_number: "",
-      user_roles_id: "",
+      user_roles_id: this.DEFAULT_ROLE,
       photo: "",
       photo_url: "",
     };

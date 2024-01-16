@@ -139,9 +139,7 @@ class ProductHelper extends Venturo
         }
 
         foreach ($details as $val) {
-            if (isset($val['id'])) {
-                $this->productDetail->drop($val['id']);
-            }
+            $this->productDetail->drop($val['id']);
         }
     }
 

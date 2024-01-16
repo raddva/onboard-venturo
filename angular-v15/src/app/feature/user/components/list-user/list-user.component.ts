@@ -9,7 +9,7 @@ import { DataTableDirective } from "angular-datatables";
   templateUrl: "./list-user.component.html",
   styleUrls: ["./list-user.component.scss"],
 })
-export class ListUserComponent {
+export class ListUserComponent implements OnInit {
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtInstance: Promise<DataTables.Api>;
@@ -88,7 +88,7 @@ export class ListUserComponent {
       if (!result.value) return false;
 
       this.userService.deleteUser(userId).subscribe((res: any) => {
-        this.getUser();
+        this.reloadDataTable();
       });
     });
   }
